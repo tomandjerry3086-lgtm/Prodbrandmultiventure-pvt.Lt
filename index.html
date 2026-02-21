@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProdBrand Multiventure Pvt. Ltd.</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+scroll-behavior:smooth;
+}
+
+body{
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+color:white;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+header{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:rgba(0,0,0,0.7);
+z-index:1000;
+}
+
+.logo{
+font-weight:bold;
+font-size:20px;
+color:#00f5d4;
+}
+
+nav a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+}
+
+section{
+padding:120px 40px;
+min-height:100vh;
+text-align:center;
+}
+
+.btn{
+background:#00f5d4;
+padding:10px 20px;
+border:none;
+cursor:pointer;
+margin-top:10px;
+border-radius:5px;
+}
+
+input, textarea{
+padding:10px;
+margin:5px;
+width:250px;
+border-radius:5px;
+border:none;
+}
+
+.dashboard{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:15px;
+border-radius:50%;
+text-decoration:none;
+font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">PBM</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#contact">Contact</a>
+<a href="#services">Services</a>
+<a href="#dashboard">Dashboard</a>
+</nav>
+</header>
+
+<section id="home">
+<h1 id="title">Premium Corporate Solutions</h1>
+<p id="subtitle">Strategic Growth | Branding | Digital Excellence</p>
+<button class="btn" onclick="toggleLang()">Toggle Language</button>
+</section>
+
+<section id="services">
+<h2>Our Services</h2>
+<p>Business Consulting | Brand Development | Digital Solutions</p>
+<button class="btn" onclick="payNow()">Pay ₹500</button>
+</section>
+
+<section id="contact">
+<h2>Contact Us</h2>
+<input id="name" placeholder="Your Name"><br>
+<input id="email" value="tomandjerry3086@gmail.com"><br>
+<textarea id="message" placeholder="Your Message"></textarea><br>
+<button class="btn" onclick="saveContact()">Send Message</button>
+</section>
+
+<section id="dashboard">
+<h2>Admin Login</h2>
+<input id="adminPass" type="password" placeholder="Enter Password">
+<button class="btn" onclick="login()">Login</button>
+
+<div id="adminPanel" style="display:none;" class="dashboard">
+<h3>Saved Messages</h3>
+<div id="data"></div>
+</div>
+</section>
+
+<section>
+<h2>AI Chatbot</h2>
+<input id="chatInput" placeholder="Ask something">
+<button class="btn" onclick="chat()">Send</button>
+<p id="chatOutput"></p>
+</section>
+
+<footer style="text-align:center;padding:20px;background:black;">
+© 2026 ProdBrand Multiventure Pvt. Ltd.<br>
+Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4733282a2629232d2235353e74777f7107202a262e2b6924282a">[email&#160;protected]</a>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/916005063351" target="_blank">Chat</a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+let lang="en";
+function toggleLang(){
+if(lang==="en"){
+document.getElementById("title").innerText="Premium Corporate Solutions (Hindi Version)";
+document.getElementById("subtitle").innerText="Business Growth | Branding | Digital Excellence";
+lang="hi";
+}else{
+document.getElementById("title").innerText="Premium Corporate Solutions";
+document.getElementById("subtitle").innerText="Strategic Growth | Branding | Digital Excellence";
+lang="en";
+}
+}
+
+function saveContact(){
+let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+contacts.push({
+name:document.getElementById("name").value,
+email:document.getElementById("email").value,
+message:document.getElementById("message").value
+});
+localStorage.setItem("contacts",JSON.stringify(contacts));
+alert("Message Saved Successfully!");
+}
+
+function login(){
+if(document.getElementById("adminPass").value==="admin123"){
+document.getElementById("adminPanel").style.display="block";
+loadData();
+}else{
+alert("Wrong Password");
+}
+}
+
+function loadData(){
+let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+let html="";
+contacts.forEach((c,i)=>{
+html+=`<p><b>${i+1}.</b> ${c.name} | ${c.email} | ${c.message}</p>`;
+});
+document.getElementById("data").innerHTML=html;
+}
+
+function payNow(){
+var options={
+key:"YOUR_RAZORPAY_KEY",
+amount:50000,
+currency:"INR",
+name:"ProdBrand Multiventure Pvt Ltd",
+description:"Service Payment",
+handler:function(response){
+alert("Payment Successful!");
+}
+};
+var rzp=new Razorpay(options);
+rzp.open();
+}
+
+functio
